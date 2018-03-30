@@ -45,14 +45,6 @@ sed -i 's/www-data/vagrant/' /etc/apache2/envvars
 # allow the .htaccess of drupal to override default urls
 sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All'/ /etc/apache2/apache2.conf
 
-# install composer
-if [ ! -f /usr/local/bin/composer ]; then
-    echo "--> Installing composer (global)..."
-    cd /usr/local/src
-    curl -sS https://getcomposer.org/installer | php
-    mv composer.phar /usr/local/bin/composer
-fi
-
 # install mysql-server if not already installed, and setup root-user
 dpkg -l | grep -q mysql-server-5.5
 if [ $? == 1 ]; then
@@ -93,6 +85,14 @@ fi
 # reload apache2
 echo "--> Restart apache2"
 service apache2 restart
+
+# install composer
+if [ ! -f /usr/local/bin/composer ]; then
+    echo "--> Installing composer (global)..."
+    cd /usr/local/src
+    curl -sS https://getcomposer.org/installer | php
+    mv composer.phar /usr/local/bin/composer
+fi
 
 # install Drush
 echo "--> Installing drush..."
