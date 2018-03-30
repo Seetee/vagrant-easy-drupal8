@@ -121,3 +121,9 @@ chmod 777 sites/default/files
 rm -fdr /var/www/html
 ln -s /vagrant/drupal /var/www/html
 
+# install Drupal Console (project) and launcher (global)
+cd /vagrant/drupal
+composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader
+composer global config minimum-stability dev
+composer global config prefer-stable true
+composer global require drupal/console-launcher:~1.0
